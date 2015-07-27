@@ -1,17 +1,16 @@
 var mongoose = require('mongoose'),
 		Schema = mongoose.Schema;
 
-
 var express = require('express');
 var bodyParser = require('body-parser');
-var User = require('../model/user.js');
-var Movie = require('../model/movie.js');
+var User = require('../models/user.js');
+var Movie = require('../models/movie.js');
 
 module.exports = function(router) {
 	router.use(bodyParser.json());
 	router.route('/users')
 	.get(function(req, res) {
-		User.find({}, function(err, data) {
+		Movie.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
 			} else {
@@ -21,7 +20,7 @@ module.exports = function(router) {
 	})
 	// index page, show all user names
 
-
+/*
 	router.route('/users/')
 	.auth
 	. post
@@ -46,4 +45,5 @@ module.exports = function(router) {
 
 	router.route('/users/:userId/:movieId')
 	.delete
-
+	*/
+};
