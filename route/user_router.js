@@ -31,7 +31,7 @@ module.exports = function(router) {
 	router.route('/users/:userId')
 	.get(function(req, res) {
 		var person = req.params.user;
-		User.findOne({displayName: person}, function(err, data) {
+		User.findOne({_id: person}, function(err, data) {
 			if (err) {
 				res.json({msg: 'User not found'});
 			} else {

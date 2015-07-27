@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var movieSchema = mongoose.Schema({
 	title: {type: String, require: true},
