@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var movieSchema = mongoose.Schema({
-	title: String,
-	year: Number,
+	title: {type: String, required: true},
+	year: {type: Number, required: true},
+	verification: title.split(' ').join().toLowerCase() + year.toString();
 	genre: String
 })
 
