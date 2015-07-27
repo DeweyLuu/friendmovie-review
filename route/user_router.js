@@ -27,12 +27,50 @@ module.exports = function(router) {
 	// pull information about a user, name and all movie
 	// Dewy
 	
-	.post(function(req, res) {})
+	
 	// create a new movie, save movie to db and insert id to user
 	// Meng
+	.post(function(req, res) {
+		fetchUser(req, res, function(err, data) {
+			var newMovie = new Movie({title: req.body.title, year:req.body.year, genre: req.body.genre});
+			newMovie.save(function(err) {
+				if(err) res.json(errorHandler(err)(500, 'save movie to database'));
+				// check combination of title and year
+				// check whether a movie exist
+				else {
+				
+				}
+			})
+		})
+	})
+
 	
 	
 	router.route('/users/:userId/:movieId')
 	.delete(function(req, res) {})
 	// Meng
+}
+
+function fetchUser(req, res, callback) {
+	User.findOne({name: req.params.userId})
+	.populate('movies')
+	.exec(function(err, user) { 
+		if (err) {
+			res.json(errorHandler(err)(500, 'retrieve user'));
+		} 
+		else if (!user) {
+			res.json({msg: "User doesn't exist"})
+		}
+		else {
+			callback(null, user);
+		}
+	})
+}
+
+							 
+function errorHandler(error) {
+	console.log(error);
+	return function(statusCode, message){
+		return ({status: statusCode, msg: "Server error. Couldn't " + message});
+	}
 }
