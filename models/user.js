@@ -3,11 +3,12 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
 
-var userSchema = mongoose.Schema({
+var userSchema = new Schema ({
 	logInName: {type: String, unique: true},
 	displayName: String,
 	password: String,
 	movies: [{
+//		 _id: false,
 		movie: Schema.Types.ObjectId,
 		review: String,
 		rating: Number

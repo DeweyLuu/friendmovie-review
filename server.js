@@ -3,30 +3,29 @@ var app = express();
 var mongoose = require('mongoose');
 var port = process.env.PORT || 8080;
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({entended: false}));
-
-// app.use(function(req, res, next) {
-// 	console.log('token: ');
-// 	console.log(req.query.token);
-// 	next();
-// })
-
 process.env.secret = process.env.secret || 'temporary';
 process.env.MONGO_URL = 'mongodb://localhost/moview_testDB';
 
+//process.env.MONGO_URL = 'mongodb://localhost/movie_testDB';
+ 
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/friendmovie_review');
 
-var apiRouter = express.Router ();
-require('./route/user_router.js')(apiRouter);
+var userRoute = express.Router();
+var movieRoute = express.Router();
 
 var authRouter = express.Router();
 require('./route/auth_routes.js')(authRouter);
 
 
 app.use('/api', apiRouter);
-app.use('/auth', authRouter);
+
+require('./route/user_router.js')(userRoute);
+require('./route/movie_router.js')(movieRoute);
+
+//app.use('/auth', authRoute);
+app.use('/api', userRoute);
+app.use('/api', movieRoute);
+
 
 app.listen(port, function() {
 	console.log('server is on ' + port);

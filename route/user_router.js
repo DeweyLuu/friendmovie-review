@@ -68,12 +68,4 @@ module.exports = function(router) {
 		})
 	})
 	// pull information about a user, name and all movie
-	.post
-	// create a new movie, save movie to db and insert id to user
-
-	router.route('/users/:userId/:movieId')
-	.delete
-}
-
-
-
+};
