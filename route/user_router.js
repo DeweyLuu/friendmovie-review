@@ -12,8 +12,6 @@ module.exports = function(router) {
 	router.use(bodyParser.json());
 	// router.route('/auth')
 	// 	.post(function(req,res) {
-
-
 	// 	})
 	router.route('/users')
 	.get(verify, function(req, res) {
@@ -56,7 +54,7 @@ module.exports = function(router) {
 	// auth, let user signin and create new user
 
 	router.route('/users/:userId')
-	.get(function(req, res) {
+	.get(verify, function(req, res) {
 		var person = req.params.userId;
 		User.findOne({logInName: person}, function(err, data) {
 			if (err) {
