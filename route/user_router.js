@@ -20,12 +20,30 @@ module.exports = function(router) {
 	})
 	// index page, show all user names
 
-/*
 	router.route('/users/')
-	.auth
-	. post
+	//.auth
+	.post(function(req, res) {
+		User.findOne({logInName: req.body.logInName}, function(err, doc) {
+			if(err) {
+				console.log(err);
+			} else if (doc) {
+				res.json({msg: 'Name already exists'});
+			}	else {
+				var newUser = new User({
+					logInName: req.body.logInName,
+					displayName: req.body.displayName,
+					movies: []
+				});
+				newUser.save(function(err, data) {
+					if (err) {
+						console.log(err);
+					}
+					res.json({msg: 'Added new user.'});
+				});
+			}
+		})
+	})
 	// auth, let user signin and create new user
-*/
 
 	router.route('/users/:userId')
 	.get(function(req, res) {
