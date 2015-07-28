@@ -5,15 +5,23 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var User = require('../models/user.js');
 var Movie = require('../models/movie.js');
+var verify = require('../middlewares/verify.js');
+
 
 module.exports = function(router) {
 	router.use(bodyParser.json());
+	// router.route('/auth')
+	// 	.post(function(req,res) {
+
+
+	// 	})
 	router.route('/users')
-	.get(function(req, res) {
-		Movie.find({}, function(err, data) {
+	.get(verify, function(req, res) {
+		User.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
 			} else {
+				console.log(data);
 				res.json(data);
 			}
 		});
@@ -32,8 +40,10 @@ module.exports = function(router) {
 				var newUser = new User({
 					logInName: req.body.logInName,
 					displayName: req.body.displayName,
+					password: req.body.password,
 					movies: []
 				});
+				newUser.password = newUser.generateHash(newUser.password);
 				newUser.save(function(err, data) {
 					if (err) {
 						console.log(err);
@@ -58,5 +68,4 @@ module.exports = function(router) {
 		})
 	})
 	// pull information about a user, name and all movie
-	
 };
