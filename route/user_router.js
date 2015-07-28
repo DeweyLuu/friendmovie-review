@@ -68,9 +68,4 @@ module.exports = function(router) {
 		})
 	})
 	// pull information about a user, name and all movie
-<<<<<<< HEAD
-
 };
-=======
-};
->>>>>>> 7ade5f0c5ba25e99b14cc455ea32ffe899ce2e36
