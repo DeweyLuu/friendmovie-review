@@ -11,7 +11,7 @@ router.route('/users/:userId')
 	// create a new movie, save movie to db and insert id to user
 	// Meng
 	.post(function(req, res) {
-		fetchUser(req, res, function(err, user) {
+		fetchUser(req, res, function(user) {
 			var verify = req.body.title.split(' ').join().toLowerCase() + req.body.year.toString();
 			var newMovie = new Movie({title: req.body.title, year: req.body.year, verification: verify, genre: req.body.genre});
 			var userReview = {
@@ -46,12 +46,28 @@ router.route('/users/:userId')
 	})
 			
 			
-
-//	router.route('/users/:userId/:movieId')
-//	.delete(function(req, res) {})
-	// Meng
-
-
+	// user deletes a review, never delete movie
+	router.route('/users/:userId/:reviewId')
+	.delete(function(req, res) {
+		fetchUser(req, res, function(user) {
+			var reviewExist = false;
+			for (var i = 0; i < user.movies.length; i++ ) {
+				var curr = user.movies[i];
+				if (curr._id == req.params.reviewId) {
+					reviewExist = true;
+					user.movies.splice(i, 1);
+					user.save(function(err) {
+						if(err) return res.json(errorHandler(err)(500, 'retrieve user.'));  
+						res.json({msg: 'The review has been deleted'});
+					});
+					break;
+				}	
+			}
+			if(!reviewExist) {
+				res.json({msg: 'The review doesn\'t exist'});
+			}
+		})
+	})
 };
 
 function errorHandler(error) {
@@ -73,7 +89,7 @@ function fetchUser(req, res, callback) {
 			res.json({msg: "User doesn't exist."})
 		}
 		else {
-			callback(null, user);
+			callback(user);
 		}
 	})
 }
