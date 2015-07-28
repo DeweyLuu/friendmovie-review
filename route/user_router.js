@@ -25,21 +25,22 @@ module.exports = function(router) {
 	.auth
 	. post
 	// auth, let user signin and create new user
-
+*/
 
 	router.route('/users/:userId')
 	.get(function(req, res) {
-		var person = req.params.user;
-		User.findOne({_id: person}, function(err, data) {
+		var person = req.params.userId;
+		User.findOne({logInName: person}, function(err, data) {
 			if (err) {
 				res.json({msg: 'User not found'});
 			} else {
+				console.log(data);
 				res.json({msg: 'Found user'});
 			}
 		})
 	})
 	// pull information about a user, name and all movie
-
+	/*
 	.post
 	// create a new movie, save movie to db and insert id to user
 
