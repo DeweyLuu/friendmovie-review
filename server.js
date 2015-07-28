@@ -22,7 +22,7 @@ app.use('/api', apiRouter);
 require('./route/user_router.js')(userRoute);
 require('./route/movie_router.js')(movieRoute);
 
-//app.use('/auth', authRoute);
+app.use('/auth', authRoute);
 app.use('/api', userRoute);
 app.use('/api', movieRoute);
 
