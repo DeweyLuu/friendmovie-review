@@ -4,8 +4,8 @@ var mongoose = require('mongoose'),
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var User = require('../model/user.js');
-var Movie = require('../model/movie.js');
+var User = require('../models/user.js');
+var Movie = require('../models/movie.js');
 
 module.exports = function(router) {
 	router.use(bodyParser.json());
@@ -46,4 +46,5 @@ module.exports = function(router) {
 
 	router.route('/users/:userId/:movieId')
 	.delete
+}
 
