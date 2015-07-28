@@ -10,7 +10,7 @@ module.exports = function(router) {
 	router.use(bodyParser.json());
 	router.route('/users')
 	.get(function(req, res) {
-		Movie.find({}, function(err, data) {
+		User.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
 			} else {
@@ -58,5 +58,5 @@ module.exports = function(router) {
 		})
 	})
 	// pull information about a user, name and all movie
-	
+
 };
