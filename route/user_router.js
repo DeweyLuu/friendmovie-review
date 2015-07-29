@@ -56,26 +56,20 @@ module.exports = function(router) {
 	router.route('/users/:userId')
 	.get(verify, function(req, res) {
 		var person = req.params.userId;
-		User.findOne({logInName: person}, function(err, data) {
-			if (err) {
+		//User.findOne({logInName: person}, function(err, data) {
+		User.findOne({logInName: person})
+			//.populate('users')
+			.exec(function(err, user) {
+				if (err) {
 				res.json({msg: 'User not found'});
 			} else {
-				res.json(data);
+				console.log(user);
+				res.json(user);
 			}
-			/*
-			} else if (user.comparePassword(req.body.password)) {
-				var token = jwt.sign(user.logInName, process.env.secret, {expiresInMinutes: 120});
-				res.json({
-					success: true,
-					msg: 'User confirmed',
-					token: token
-				})
-			} else {
-				//console.log(data);
-				res.json({msg: 'Found user'});
-			}
-			*/
 		})
 	})
 	// pull information about a user, name and all movie
 };
+
+
+
