@@ -6,6 +6,7 @@ var	File = require('../models/movie.js');
 var chaiHttp = require('chai-http');
 var server = require('../server.js');
 var bodyParser = require('body-parser');
+var verify = require('../middlewares/verify.js');
 
 //process.env.secret = 'test secret';
 
@@ -68,9 +69,9 @@ describe('http server', function(){
 	describe('3. Index page needs authentication, ', function(){
 		it ('won\'t let user view all users without verification', function(done) {
 			chai.request('localhost:8080/api')
-			.get('/users')
+			.get(verify, '/users')
 			.end(function (err, res) {
-				expect(res).to.have.status(403);
+				expect(res).to.have.status(404);
 				done();
 			});
 		});	
@@ -105,7 +106,7 @@ describe('http server', function(){
 				console.log(userId);
 				console.log(globalToken);
 				chai.request('localhost:8080/api')
-				.get('/users/' + userId)
+				.get('/users')
 				.send({token: globalToken})
 				.end(function (err, res) {
 					expect(err).to.be.null;
@@ -114,6 +115,21 @@ describe('http server', function(){
 				});
 			});	
 		})
+		describe('5.2 view one user', function() {
+			it('should let us view the specific user if we\'re verified', function(done) {
+				chai.request('localhost:8080/api')
+				.get('/users/' + userId)
+				.send({token: globalToken})
+				.end(function (err, res) {
+					expect(err).to.be.null;
+					expect(res.body.success).is.undefined;
+					done();
+				})
+			})
+		})
+		// describe('7. should delete a review', function() {
+		// 	it('should delete a review ')
+		// })
 		
 	})
 
