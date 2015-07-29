@@ -8,7 +8,6 @@ var jwt = require('jsonwebtoken');
 var Movie = require('../models/movie.js');
 var verify = require('../middlewares/verify.js');
 
-
 module.exports = function(router) {
 	router.use(bodyParser.json());
 	// router.route('/auth')
@@ -57,11 +56,20 @@ module.exports = function(router) {
 	router.route('/users/:userId')
 	.get(verify, function(req, res) {
 		var person = req.params.userId;
-		User.findOne({logInName: person}, function(err, data) {
+		User.findOne({logInName: person}, function(err, user) {
 			if (err) {
 				res.json({msg: 'User not found'});
 			} else {
-				res.json(data);
+				user.movies.forEach(function(aMovie) {
+					Movie.findOne({_id: aMovie.movie})
+					.populate('movie')
+					.exec(function(err, data) {
+						console.log('user', user);
+						console.log('data', data);
+						res.send('populated');
+					})
+					
+				})
 			}
 			/*
 			} else if (user.comparePassword(req.body.password)) {
