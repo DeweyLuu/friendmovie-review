@@ -1,0 +1,21 @@
+<section>
+<form class="bit-1">
+       <fieldset class="bit-1">
+          <legend class="bit-1">Write A Movie Review</legend>
+            <label for="moviereview_title" class="bit-1" class="bit-1">Movie Title: </label>
+            <input type="text" id="moviereview_title" class="bit-1"/>
+            <label for="moviereview_rating" class="bit-1">Rating: </label>
+            <input type="text" id="moviereview_rating" class="bit-1" />
+            <label for="moviereview_review" class="bit-1">Review: </label>
+            <textarea id="moviereview_review" type="text" class="bit-1" rows=5 /></textarea>
+            <button type="submit">Done</button>
+        </fieldset>
+      </form>
+    </section>
+
+<div data-ng-controller="testController" data-ng-repeat="review in reviews">
+<h1> {{reviews.movietitle}}</h1>
+<p> {{reviews.rating}}</p>
+<p> {{reviews.movierating}}</p>
+  </div>
+</section>
