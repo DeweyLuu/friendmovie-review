@@ -1,11 +1,13 @@
 var User = require('../models/user.js');
 var jwt = require('jsonwebtoken');
+var bodyParser = require('body-parser');
 
 module.exports = function (router) {
-
+	router.use(bodyParser.json());
 	router.post('/login', function (req, res) {
+		
 		User.findOne({ logInName: req.body.logInName}, function (err, user) {
-			console.log("are we in here?",user.logInName);
+//			console.log("are we in here?",user.logInName);
 			if(err) {
 				res.status(500).json({msg: 'server error'});
 			} else if (user.comparePassword(req.body.password) === true) {
