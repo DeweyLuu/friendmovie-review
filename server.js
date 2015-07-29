@@ -12,11 +12,8 @@ mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/friendmovie_revie
 var userRoute = express.Router();
 var movieRoute = express.Router();
 
-var authRouter = express.Router();
-require('./route/auth_routes.js')(authRouter);
-
-
-app.use('/api', apiRouter);
+var authRoute = express.Router();
+require('./route/auth_routes.js')(authRoute);
 
 require('./route/user_router.js')(userRoute);
 require('./route/movie_router.js')(movieRoute);

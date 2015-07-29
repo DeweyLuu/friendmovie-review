@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var User = require('../models/user.js');
 var Movie = require('../models/movie.js');
-var request = require('request');
+// var request = require('request');
 
 
 module.exports = function(router) {
