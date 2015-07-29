@@ -5,7 +5,6 @@ var port = process.env.PORT || 8080;
 
 process.env.secret = process.env.secret || 'temporary';
 process.env.MONGO_URL = 'mongodb://localhost/moview_testDB';
-//process.env.MONGO_URL = 'mongodb://localhost/movie_testDB';
 
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/friendmovie_review');
 
