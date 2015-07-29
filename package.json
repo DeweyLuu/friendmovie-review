@@ -22,7 +22,8 @@
     "jscs": "^1.13.1",
     "jshint": "^2.8.0",
     "mocha": "^2.2.5",
-    "readable-stream": "1.0.31"
+    "readable-stream": "1.0.31",
+		"request": "^2.59.0"
   },
   "dependencies": {
     "bcrypt": "^0.8.4",
