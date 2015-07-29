@@ -14,8 +14,8 @@ module.exports = function(router) {
 	// router.route('/auth')
 	// 	.post(function(req,res) {
 	// 	})
-	router.route('/users', verify)
-	.get(function(req, res) {
+	router.route('/users')
+	.get(verify, function(req, res) {
 
 		User.find({}, function(err, data) {
 			if (err) {
@@ -58,25 +58,14 @@ module.exports = function(router) {
 	router.route('/users/:userId', verify)
 	.get(function(req, res) {
 		var person = req.params.userId;
+		//User.findOne({logInName: person}, function(err, data) {
 		User.findOne({logInName: person}, function(err, data) {
 			if (err) {
 				res.json({msg: 'User not found'});
 			} else {
+				console.log(data);
 				res.json(data);
 			}
-			/*
-			} else if (user.comparePassword(req.body.password)) {
-				var token = jwt.sign(user.logInName, process.env.secret, {expiresInMinutes: 120});
-				res.json({
-					success: true,
-					msg: 'User confirmed',
-					token: token
-				})
-			} else {
-				//console.log(data);
-				res.json({msg: 'Found user'});
-			}
-			*/
 		})
 	})
 	// pull information about a user, name and all movie
