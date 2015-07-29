@@ -116,21 +116,21 @@ describe('http server', function(){
 			});	
 		})
 
-		// describe('5.2 view one user', function() {
-		// 	it('should let us view the specific user if we\'re verified', function(done) {
-		// 		chai.request('localhost:8080/api')
-		// 		.get('/users/' + userId)
-		// 		.send({token: globalToken})
-		// 		.end(function (err, res) {
-		// 			expect(err).to.be.null;
-		// 			expect(res.body.success).is.undefined;
-		// 			done();
-		// 		})
-		// 	})
+		describe('5.2 view one user', function() {
+			it('should let us view the specific user if we\'re verified', function(done) {
+				chai.request('localhost:8080/api')
+				.get('/users/' + userId)
+				.send({token: globalToken})
+				.end(function (err, res) {
+					expect(err).to.be.null;
+					expect(res.body.success).is.undefined;
+					done();
+				})
+			})
+		})
+		// describe('7. should delete a review', function() {
+		// 	it('should delete a review ')
 		// })
-		// // describe('7. should delete a review', function() {
-		// // 	it('should delete a review ')
-		// // })
 		
 
 	})
