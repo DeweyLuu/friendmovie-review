@@ -28,12 +28,12 @@ describe('http server', function(){
 		done();
 	});
 	
-	after(function(done) {
-		mongoose.connection.db.dropDatabase(function(err) {
-			console.log('test database is dropped');
-			done();
-		});
-	})
+//	after(function(done) {
+//		mongoose.connection.db.dropDatabase(function(err) {
+//			console.log('test database is dropped');
+//			done();
+//		});
+//	})
 	
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
