@@ -13,7 +13,6 @@ var userRoute = express.Router();
 var movieRoute = express.Router();
 var authRoute = express.Router();
 
-
 require('./route/auth_routes.js')(authRoute);
 require('./route/user_router.js')(userRoute);
 require('./route/movie_router.js')(movieRoute);
