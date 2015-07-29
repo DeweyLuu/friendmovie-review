@@ -7,7 +7,7 @@ var chaiHttp = require('chai-http');
 var server = require('../server.js');
 var bodyParser = require('body-parser');
 
-//process.env.secret = 'test secret';
+process.env.secret = 'test secret';
 
 chai.use(chaiHttp);
 

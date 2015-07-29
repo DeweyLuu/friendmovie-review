@@ -14,9 +14,8 @@ module.exports = function(router) {
 	// router.route('/auth')
 	// 	.post(function(req,res) {
 	// 	})
-	router.route('/users', verify)
-	.get(function(req, res) {
-
+	router.route('/users')
+	.get(verify, function(req, res) {
 		User.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
@@ -30,7 +29,7 @@ module.exports = function(router) {
 
 	router.route('/users/')
 	//.auth
-	.post(function(req, res) {
+	.post(verify, function(req, res) {
 		User.findOne({logInName: req.body.logInName}, function(err, doc) {
 			if(err) {
 				console.log(err);
@@ -55,8 +54,8 @@ module.exports = function(router) {
 	})
 	// auth, let user signin and create new user
 
-	router.route('/users/:userId', verify)
-	.get(function(req, res) {
+	router.route('/users/:userId')
+	.get(verify, function(req, res) {
 		var person = req.params.userId;
 		User.findOne({logInName: person}, function(err, data) {
 			if (err) {

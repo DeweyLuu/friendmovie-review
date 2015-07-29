@@ -11,7 +11,7 @@ module.exports = function(router) {
 router.route('/users/:userId')
 	// create a new movie, save movie to db and insert id to user
 	// Meng
-	.post(function(req, res) {
+	.post(verify, function(req, res) {
 		fetchUser(req, res, function(user) {
 			var verify = req.body.title.split(' ').join().toLowerCase() + req.body.year.toString();
 			var newMovie = new Movie({title: req.body.title, year: req.body.year, verification: verify, genre: req.body.genre});
@@ -49,7 +49,7 @@ router.route('/users/:userId')
 
 	// user deletes a review, never delete movie
 	router.route('/users/:userId/:reviewId')
-	.delete(function(req, res) {
+	.delete(verify, function(req, res) {
 		fetchUser(req, res, function(user) {
 			var reviewExist = false;
 			for (var i = 0; i < user.movies.length; i++ ) {
