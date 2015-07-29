@@ -5,6 +5,8 @@ var sass = require('gulp-sass');
 var webpack = require('gulp-webpack');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
+var jshint = require('gulp-jshint');
+var mocha = require('gulp-mocha');
 
 gulp.task('sass', function () {
   gulp.src('./sass/**/*.scss')
@@ -51,4 +53,25 @@ gulp.task('copy', function() {
 });
 
 gulp.task('build', ['copy', 'webpackdev', 'minify-css']);
-gulp.task('default', ['build']);
+
+// Back-End Tasks //
+
+gulp.task('default', ['test', 'lint'], function() {});
+
+gulp.task('test', function() {
+	return gulp.src(['./test/*.js',
+	'./route/*.js','./models/*.js','./middlewares/*.js'])
+						 .pipe(mocha());
+});
+
+gulp.task('lint', function() {
+	return gulp.src(['*.js','./test/*.js',
+	'./route/*.js','./models/*.js','./middlewares/*.js'])
+						 .pipe(jshint())
+						 .pipe(jshint.reporter('default'));
+});
+
+gulp.task('watch', function() {
+	gulp.watch(['*.js','./test/*.js',
+	'./route/*.js','./models/*.js','./middlewares/*.js'], ['default']);
+});
