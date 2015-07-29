@@ -14,6 +14,7 @@ chai.use(chaiHttp);
 
 var globalToken;
 var userId;
+var reviewId;
 
 describe('http server', function(){
 	
@@ -128,26 +129,50 @@ describe('http server', function(){
 				})
 			})
 		})
-		// describe('7. should delete a review', function() {
-		// 	it('should delete a review ')
-		// })
+	
 		
 
 	})
 	
-		describe('6. After token is generated for user, ', function(){
-			it ('user can create movie review if a movie is valid', function(done) {
-				chai.request('localhost:8080/api')
-				.post('/users/' + userId)
-				.send({token: globalToken})
-				.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I love it', rating: '4.5'})
-				.end(function (err, res) {
-					expect(err).to.be.null;
-					expect(res.body.msg).equal('Movie review was added.');
-					done();
-				});
-			});	
+	describe('6. After token is generated for user, ', function(){
+		it ('user can create movie review if a movie is valid', function(done) {
+			chai.request('localhost:8080/api')
+			.post('/users/' + userId)
+			.send({token: globalToken})
+			.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I love it', rating: '4.5'})
+			.end(function (err, res) {
+				expect(err).to.be.null;
+				expect(res.body.msg).equal('Movie review was added.');
+				done();
+			});
+		});	
+	})
+
+	describe('7. Delete a review that is inside of a users movie array', function() {
+		before(function(done) {
+			User.findOne({_id: userId}, function(err, user) {
+				console.log("user findone returning a user",user.movies[0]._id);
+				reviewId = user.movies[0]._id;
+				// reviewId = user.movies[0]._id;
+				console.log('should have a reviewId',reviewId);
+				done();
+			})
 		})
+		describe('things happening', function() {
+			it('should delete a review if user is valid', function(done) {
+				console.log("review id should be here",reviewId)
+				chai.request('localhost:8080/api')
+				.delete('/users/'+ userId + "/" + reviewId)
+				.send({token: globalToken})
+				.end(function (err, res) {
+					console.log('something')
+					expect(err).to.be.null;
+					expect(res.body.msg).to.eql('The review has been deleted')
+					done();
+				})
+			})
+		})
+	})
 
 	
 
