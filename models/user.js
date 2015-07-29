@@ -19,8 +19,6 @@ userSchema.methods.generateHash = function (password) {
 return bcrypt.hashSync(password, 8, null)
 }
 
-
-
 userSchema.methods.comparePassword = function (enteredPass, cb) {
 	//this is the method that will be used when authenticating the passwords
 	return bcrypt.compareSync(enteredPass, this.password);
