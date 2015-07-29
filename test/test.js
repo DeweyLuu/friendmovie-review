@@ -8,7 +8,7 @@ var server = require('../server.js');
 var bodyParser = require('body-parser');
 var verify = require('../middlewares/verify.js');
 
-//process.env.secret = 'test secret';
+process.env.secret = 'test secret';
 
 chai.use(chaiHttp);
 
@@ -29,12 +29,12 @@ describe('http server', function(){
 		done();
 	});
 	
-	after(function(done) {
-		mongoose.connection.db.dropDatabase(function(err) {
-			console.log('test database is dropped');
-			done();
-		});
-	})
+//	after(function(done) {
+//		mongoose.connection.db.dropDatabase(function(err) {
+//			console.log('test database is dropped');
+//			done();
+//		});
+//	})
 	
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
@@ -103,8 +103,8 @@ describe('http server', function(){
 		
 		describe('5.1 view all users, ', function(){
 			it ('let user view all users if verified', function(done) {
-				console.log(userId);
-				console.log(globalToken);
+//				console.log(userId);
+//				console.log(globalToken);
 				chai.request('localhost:8080/api')
 				.get('/users')
 				.send({token: globalToken})
@@ -115,22 +115,40 @@ describe('http server', function(){
 				});
 			});	
 		})
-		describe('5.2 view one user', function() {
-			it('should let us view the specific user if we\'re verified', function(done) {
+
+		// describe('5.2 view one user', function() {
+		// 	it('should let us view the specific user if we\'re verified', function(done) {
+		// 		chai.request('localhost:8080/api')
+		// 		.get('/users/' + userId)
+		// 		.send({token: globalToken})
+		// 		.end(function (err, res) {
+		// 			expect(err).to.be.null;
+		// 			expect(res.body.success).is.undefined;
+		// 			done();
+		// 		})
+		// 	})
+		// })
+		// // describe('7. should delete a review', function() {
+		// // 	it('should delete a review ')
+		// // })
+		
+
+	})
+	
+		describe('6. After token is generated for user, ', function(){
+			it ('user can create movie review if a movie is valid', function(done) {
 				chai.request('localhost:8080/api')
-				.get('/users/' + userId)
+				.post('/users/' + userId)
 				.send({token: globalToken})
+				.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I love it', rating: '4.5'})
 				.end(function (err, res) {
 					expect(err).to.be.null;
-					expect(res.body.success).is.undefined;
+					expect(res.body.msg).equal('Movie review was added.');
 					done();
-				})
-			})
+				});
+			});	
 		})
-		// describe('7. should delete a review', function() {
-		// 	it('should delete a review ')
-		// })
-		
-	})
+
+	
 
 });
