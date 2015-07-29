@@ -8,7 +8,6 @@ var jwt = require('jsonwebtoken');
 var Movie = require('../models/movie.js');
 var verify = require('../middlewares/verify.js');
 
-
 module.exports = function(router) {
 	router.use(bodyParser.json());
 	// router.route('/auth')
