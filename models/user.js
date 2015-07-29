@@ -9,7 +9,8 @@ var userSchema = new Schema ({
 	password: {type: String, required: true},
 	movies: [{
 //		 _id: false,
-		movie: Schema.Types.ObjectId,
+		//movie: Schema.Types.ObjectId,
+		movie: String,
 		review: String,
 		rating: Number
 	}]
