@@ -47,3 +47,4 @@ module.exports = function(router) {
 	router.route('/users/:userId/:movieId')
 	.delete
 
+};
