@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
+var path = require('path');
 var port = process.env.PORT || 8080;
 
 process.env.secret = process.env.secret || 'temporary';
@@ -20,6 +21,8 @@ app.use('/auth', authRoute);
 app.use('/api', userRoute);
 app.use('/api', movieRoute);
 
+//static services
+app.use(express.static(path.join(__dirname, 'build'))); //serve everything inside public directory
 
 app.listen(port, function() {
 	console.log('server is on ' + port);

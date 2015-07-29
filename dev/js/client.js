@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 console.log("load client.js");
 
 require('angular/angular');
-require('angular/angular-route');
+require('angular-route');
 
 // var myApp = angular.module('friendReview', ['testController']);
 
@@ -20,19 +20,20 @@ require('./controllers/testController')(movieApp);
 
 //config - - routeProvider set-up:
 movieApp.config(['$routeProvider', function($routeProvider){
+  $routeProvider
   // Home Initial Login or Create
 .when('/', {
-  templateUrl: 'templates/login.html',
+  templateUrl: '../templates/login.html',
   controller: 'testController'
 })
  // Profile Page
 .when('/profile', {
-  templateUrl: 'templates/profile.html',
+  templateUrl: '../templates/profile.html',
   controller: 'testController'
 })
 // Page with all of the users, where you can check out the users
 .when('/users', {
-  templateUrl: 'templates/users.html',
+  templateUrl: '../templates/users.html',
   controller: 'testController'
 })
 .otherwise({
