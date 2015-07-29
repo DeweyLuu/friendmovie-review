@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var User = require('../models/user.js');
 var Movie = require('../models/movie.js');
+
 var request = require('request');
 var verify = require('../middlewares/verify.js');
 
@@ -22,13 +23,13 @@ router.route('/users/:userId')
 
 			fetchMovieVerif(newMovie, function(movie) {
 				// validate that the movie exists in db. Assume that if it already exists it passed omdb validation
-				if(movie) { 
+				if(movie) {
 					// if movie already exists in db
 					userReview.movie = movie._id;
 					saveReview(res, user, userReview);
 				}
 				else {
-					// if movie doesn't exist in db, create a new movie 
+					// if movie doesn't exist in db, create a new movie
 					var next = function() {
 					newMovie.save(function(err) {
 						if(err) res.json(errorHandler(err)(500, 'save movie to database.'));
@@ -41,11 +42,11 @@ router.route('/users/:userId')
 					// validate that the new movie against omdb
 					validateMovie(req, res, newMovie, next);
 				}
-			});			 						 
+			});
 		})
 	})
-			
-			
+
+
 	// user deletes a review, never delete movie
 	router.route('/users/:userId/:reviewId')
 	.delete(function(req, res) {
@@ -57,11 +58,11 @@ router.route('/users/:userId')
 					reviewExist = true;
 					user.movies.splice(i, 1);
 					user.save(function(err) {
-						if(err) return res.json(errorHandler(err)(500, 'retrieve user.'));  
+						if(err) return res.json(errorHandler(err)(500, 'retrieve user.'));
 						res.json({msg: 'The review has been deleted'});
 					});
 					break;
-				}	
+				}
 			}
 			if(!reviewExist) {
 				res.json({msg: 'The review doesn\'t exist'});
@@ -81,10 +82,10 @@ function fetchUser(req, res, callback) {
 //	User.find({}, function(err, data) {console.log(data)});
 	User.findById(req.params.userId)
 	.populate('movies')
-	.exec(function(err, user) { 
+	.exec(function(err, user) {
 		if (err) {
-			res.json(errorHandler(err)(500, 'retrieve user.')); 
-		} 
+			res.json(errorHandler(err)(500, 'retrieve user.'));
+		}
 		else if (!user) {
 			res.json({msg: "User doesn't exist."})
 		}
@@ -97,16 +98,16 @@ function fetchUser(req, res, callback) {
 function fetchMovieVerif(newMovie, callback) {
 	var verify = newMovie.title.split(' ').join().toLowerCase() + newMovie.year.toString();
 	Movie.findOne({verification: verify})
-	.exec(function(err, movie) { 
+	.exec(function(err, movie) {
 		if (err) {
 			res.json(errorHandler(err)(500, 'create movie.'));
-		} 
+		}
 		else {
 			callback(movie);
 		}
 	})
 }
-							 
+
 
 function validateMovie(req, res, newMovie, next) {
 //	newMovie = new Movie({title: req.body.title, year: req.body.year, verification: verify, genre: req.body.genre});
@@ -129,12 +130,12 @@ function validateMovie(req, res, newMovie, next) {
 				console.log('the movie is valid');
 				next();
 			}
-		} 
+		}
 	})
 }
 
 function saveReview(res, user, userReview){
-	user.movies.push(userReview);	
+	user.movies.push(userReview);
 	user.save(function(err) {
 		if(err) return res.json(errorHandler(err)(500, 'save movie to user.'));
 		res.json({msg: 'Moview review was added.'});
