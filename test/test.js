@@ -28,12 +28,12 @@ describe('http server', function(){
 		done();
 	});
 	
-	after(function(done) {
-		mongoose.connection.db.dropDatabase(function(err) {
-			console.log('test database is dropped');
-			done();
-		});
-	})
+//	after(function(done) {
+//		mongoose.connection.db.dropDatabase(function(err) {
+//			console.log('test database is dropped');
+//			done();
+//		});
+//	})
 	
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
@@ -102,8 +102,8 @@ describe('http server', function(){
 		
 		describe('5.1 view all users, ', function(){
 			it ('let user view all users if verified', function(done) {
-				console.log(userId);
-				console.log(globalToken);
+//				console.log(userId);
+//				console.log(globalToken);
 				chai.request('localhost:8080/api')
 				.get('/users/' + userId)
 				.send({token: globalToken})
@@ -114,7 +114,22 @@ describe('http server', function(){
 				});
 			});	
 		})
-		
 	})
+	
+		describe('6. After token is generated for user, ', function(){
+			it ('user can create movie review if a movie is valid', function(done) {
+				chai.request('localhost:8080/api')
+				.post('/users/' + userId)
+				.send({token: globalToken})
+				.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I love it', rating: '4.5'})
+				.end(function (err, res) {
+					expect(err).to.be.null;
+					expect(res.body.msg).equal('Movie review was added.');
+					done();
+				});
+			});	
+		})
+
+	
 
 });
