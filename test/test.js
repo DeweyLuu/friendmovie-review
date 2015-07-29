@@ -6,7 +6,7 @@ var	File = require('../models/movie.js');
 var chaiHttp = require('chai-http');
 var server = require('../server.js');
 var bodyParser = require('body-parser');
-var verify = require('../middlewares/verify.js');
+
 
 process.env.secret = 'test secret';
 
@@ -29,12 +29,12 @@ describe('http server', function(){
 		done();
 	});
 	
-//	after(function(done) {
-//		mongoose.connection.db.dropDatabase(function(err) {
-//			console.log('test database is dropped');
-//			done();
-//		});
-//	})
+	after(function(done) {
+		mongoose.connection.db.dropDatabase(function(err) {
+			console.log('test database is dropped');
+			done();
+		});
+	})
 	
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
@@ -69,9 +69,9 @@ describe('http server', function(){
 	describe('3. Index page needs authentication, ', function(){
 		it ('won\'t let user view all users without verification', function(done) {
 			chai.request('localhost:8080/api')
-			.get(verify, '/users')
+			.get('/users')
 			.end(function (err, res) {
-				expect(res).to.have.status(404);
+				expect(res).to.have.status(403);
 				done();
 			});
 		});	
