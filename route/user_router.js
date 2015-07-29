@@ -29,7 +29,7 @@ module.exports = function(router) {
 
 	router.route('/users/')
 	//.auth
-	.post(verify, function(req, res) {
+	.post(function(req, res) {
 		User.findOne({logInName: req.body.logInName}, function(err, doc) {
 			if(err) {
 				console.log(err);
