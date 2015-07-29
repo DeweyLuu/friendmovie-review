@@ -8,7 +8,6 @@ var jwt = require('jsonwebtoken');
 var Movie = require('../models/movie.js');
 var verify = require('../middlewares/verify.js');
 
-
 module.exports = function(router) {
 	router.use(bodyParser.json());
 	// router.route('/auth')
@@ -16,7 +15,6 @@ module.exports = function(router) {
 	// 	})
 	router.route('/users')
 	.get(verify, function(req, res) {
-
 		User.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
