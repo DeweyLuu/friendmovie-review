@@ -29,16 +29,16 @@ module.exports = function(router) {
 	router.route('/users/')
 	//.auth
 	.post(function(req, res) {
-		User.findOne({logInName: req.body.logInName}, function(err, doc) {
+		User.findOne({logInName: req.body.createProfiles.logInName}, function(err, doc) {
 			if(err) {
 				console.log(err);
 			} else if (doc) {
 				res.json({msg: 'Name already exists'});
 			}	else {
 				var newUser = new User({
-					logInName: req.body.logInName,
-					displayName: req.body.displayName,
-					password: req.body.password,
+					logInName: req.body.createProfiles.logInName,
+					displayName: req.body.createProfiles.displayName,
+					password: req.body.createProfiles.password,
 					movies: []
 				});
 				newUser.password = newUser.generateHash(newUser.password);
