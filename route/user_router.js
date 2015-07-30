@@ -61,32 +61,32 @@ module.exports = function(router) {
 		var NumMovies = 0;
 		var Reviewarr = [];
 		User.findOne({logInName: person})
+			.populate('movies')
 			.exec(function(err, user) {
 				if (err) {
-					res.json({msg: 'User not found'});
+					return res.json({msg: 'User not found'});
 				} else {
 					var total = user.movies.length;
-					console.log(total);
-					console.log(user.movies);
 					user.movies.forEach(function(aMovie){
-						Movie.findOne({_id: aMovie.movie})
-						.populate('movies')
-						.exec(function(err, data) {
-							if(err) return console.log('error');
+						Movie.findOne({_id: aMovie.movie}, function(err, data) {
+							if(err) return res.json({msg:'can not find movie'});
+							// data['review'] = aMovie.review;
+							// console.log(aMovie.review);
+							// data.rating = aMovie.rating;
 							console.log(data);
 							Reviewarr.push(data);
-							//console.log(Reviewarr);
 							NumMovies++;
+							if(NumMovies === total) {
+								var userInfo = {user:user, reviews:Reviewarr};
+								console.log(userInfo);
+								res.json(userInfo);
+								return;
+							}
 						})
-						if (total == NumMovies) {
-							res.json(Reviewarr);
-							console.log(Reviewarr);
-						}
 					})
-
 				}
 			})
-		})
+	})
 	// pull information about a user, name and all movie
 };
 
