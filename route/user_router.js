@@ -13,6 +13,15 @@ module.exports = function(router) {
 	// router.route('/auth')
 	// 	.post(function(req,res) {
 	// 	})
+	router.route('/') {
+		.get(function(req,res) {
+			if(err) {
+				return console.log(err)
+			} else {
+				res.json(msg:"hello");
+			}
+		})
+	}
 	router.route('/users')
 	.get(function(req, res) {
 		User.find({}, function(err, data) {
