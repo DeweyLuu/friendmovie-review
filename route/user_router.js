@@ -54,32 +54,37 @@ module.exports = function(router) {
 	// auth, let user signin and create new user
 
 	router.route('/users/:userId')
-	.get(verify, function(req, res) {
+	.get(function(req, res) {
 		var person = req.params.userId;
 		//var total = user.movies;
 		//console.log(total);
 		var NumMovies = 0;
 		var Reviewarr = [];
 		User.findOne({logInName: person})
-			.populate('movies')
+//			.populate('movies')
 			.exec(function(err, user) {
 				if (err) {
+					console.log(err);
+				} else if (!user) {
 					return res.json({msg: 'User not found'});
 				} else {
 					var total = user.movies.length;
 					user.movies.forEach(function(aMovie){
+						var reviewInfo = {};
+						reviewInfo.review = aMovie.review;
+						reviewInfo.rating = aMovie.rating;
 						Movie.findOne({_id: aMovie.movie}, function(err, data) {
 							if(err) return res.json({msg:'can not find movie'});
-							// data['review'] = aMovie.review;
-							// console.log(aMovie.review);
-							// data.rating = aMovie.rating;
-							console.log(data);
-							Reviewarr.push(data);
+							reviewInfo.title = data.title;
+							reviewInfo.year = data.year;
+							reviewInfo.genre = data.genre;
+							console.log('synthetic obj', reviewInfo);
+							Reviewarr.push(reviewInfo);
 							NumMovies++;
 							if(NumMovies === total) {
 								var userInfo = {user:user, reviews:Reviewarr};
 								console.log(userInfo);
-								res.json(userInfo);
+								res.send(userInfo);
 								return;
 							}
 						})
