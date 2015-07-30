@@ -11,7 +11,7 @@ module.exports = function (router) {
 			if(err) {
 				res.status(500).json({msg: 'server error'});
 			} else if (user.comparePassword(req.body.password) === true) {
-				var token = jwt.sign(user.logInName, process.env.secret, {expiresInMinutes: 120});
+				var token = jwt.sign(user._id, process.env.secret, {expiresInMinutes: 120});
 				res.json({
 					success: true,
 					msg: 'Authentication successful',
