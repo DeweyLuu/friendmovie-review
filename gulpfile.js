@@ -19,7 +19,7 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('webpackdev', function() {
-  return gulp.src('./dev/js/**.js')
+  return gulp.src('./dev/js/client.js')
     .pipe(webpack({
       output: {
         filename: 'bundle.js'
@@ -30,9 +30,9 @@ gulp.task('webpackdev', function() {
 });
 
 gulp.task('minify-css', function() {
-  return gulp.src('./dev/CSS/*.css')
+  return gulp.src('./dev/css/*.css')
     .pipe(minifyCss({compatibility: 'ie8'}))
-    .pipe(gulp.dest('./build/CSS/'));
+    .pipe(gulp.dest('./build/css/'));
 });
 
 gulp.task('compress', function() {
