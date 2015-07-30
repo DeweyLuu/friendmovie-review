@@ -56,26 +56,37 @@ module.exports = function(router) {
 	router.route('/users/:userId')
 	.get(verify, function(req, res) {
 		var person = req.params.userId;
-		User.findOne({logInName: person}, function(err, data) {
-			if (err) {
-				res.json({msg: 'User not found'});
-			} else {
-				res.json(data);
-			}
-			/*
-			} else if (user.comparePassword(req.body.password)) {
-				var token = jwt.sign(user.logInName, process.env.secret, {expiresInMinutes: 120});
-				res.json({
-					success: true,
-					msg: 'User confirmed',
-					token: token
-				})
-			} else {
-				//console.log(data);
-				res.json({msg: 'Found user'});
-			}
-			*/
+		//var total = user.movies;
+		//console.log(total);
+		var NumMovies = 0;
+		var Reviewarr = [];
+		User.findOne({logInName: person})
+			.exec(function(err, user) {
+				if (err) {
+					res.json({msg: 'User not found'});
+				} else {
+					var total = user.movies.length;
+					console.log(total);
+					console.log(user.movies);
+					user.movies.forEach(function(aMovie){
+						Movie.findOne({_id: aMovie.movie})
+						.populate('movies')
+						.exec(function(err, data) {
+							if(err) return console.log('error');
+							console.log(data);
+							Reviewarr.push(data);
+							//console.log(Reviewarr);
+							NumMovies++;
+						})
+						if (total == NumMovies) {
+							res.json(Reviewarr);
+							console.log(Reviewarr);
+						}
+					})
+
+				}
+			})
 		})
-	})
 	// pull information about a user, name and all movie
 };
+
