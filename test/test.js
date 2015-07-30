@@ -29,7 +29,6 @@ describe('http server', function(){
 		user4.save();
 		done();
 	});
-<<<<<<< HEAD
 
 //	after(function(done) {
 //		mongoose.connection.db.dropDatabase(function(err) {
@@ -38,16 +37,6 @@ describe('http server', function(){
 //		});
 //	})
 
-=======
-
-	after(function(done) {
-		mongoose.connection.db.dropDatabase(function(err) {
-			console.log('test database is dropped');
-			done();
-		});
-	})
-
->>>>>>> fa9bc1ee5fcaa30a82dd1c31b2f62c0edeed04a3
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
 			chai.request('localhost:8080/api')
