@@ -1,18 +1,27 @@
 <section class="bit-2">
-      <h2>Friend Movie Review</h2>
+      <h2 class="login_h2">Reel Friends</h2>
     </section>
     <section class="bit-2">
-
-      <form class="bit-1">
+      <form class="bit-1" data-ng-submit="sendLogin(loginForm)">
+        <fieldset class="bit-1">
+          <legend class="bit-1">Login</legend>
+          <label for="login_username" class="bit-1 login_inputs">Username: </label>
+          <input type="text" id="login_username" class="bit-1" data-ng-model="loginForm.logInName" required/>
+          <label for="login_password" class="bit-1 login_inputs">Password: </label>
+          <input type="password" id="login_password" class="bit-1" data-ng-model="loginForm.password" required/>
+          <button type="submit" class="login_button">Login</button>
+        </fieldset>
+      </form>
+      <form class="bit-1" data-ng-submit="newUser({logInName: createProfiles.logInName, displayName: createProfiles.displayName, password: createProfiles.password })">
        <fieldset class="bit-1">
-          <legend class="bit-1">Create A Profile</legend>
-            <label for="createprofile_displayname" class="bit-1" class="bit-1">Display Name: </label>
-            <input type="text" id="createprofile_displayname" class="bit-1"/>
-            <label for="createprofile_username" class="bit-1">Username: </label>
-            <input type="text" id="createprofile_username" class="bit-1" />
-            <label for="createprofile_password" class="bit-1">Password: </label>
-            <input type="text" id="createprofile_password" class="bit-1" />
-            <button type="submit">Create Profile</button>
+          <legend class="bit-1">Create Profile</legend>
+            <label for="createprofile_username" class="bit-1 login_inputs">Username: </label>
+            <input type="text" id="createprofile_username" class="bit-1" data-ng-model="createProfiles.logInName" required/>
+            <label for="createprofile_displayname" class="bit-1 login_inputs" class="bit-1">Display Name: </label>
+            <input type="text" id="createprofile_displayname" class="bit-1" data-ng-model="createProfiles.displayName"/>
+            <label for="createprofile_password" class="bit-1 login_inputs">Password: </label>
+            <input type="password" id="createprofile_password" class="bit-1" data-ng-model="createProfiles.password" required/>
+            <button type="submit" class="createprofile_button">Create Profile</button>
         </fieldset>
       </form>
     </section>

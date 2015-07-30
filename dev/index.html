@@ -9,28 +9,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/modules.css">
+    <link rel="stylesheet" href="CSS/base.css">
+    <link rel="stylesheet" href="CSS/layout.css">
+    <link rel="stylesheet" href="CSS/modules.css">
   </head>
-  <body>
+  <body class="index_main">
     <header class="bit-1">
       <h1>Fuck. Maybe another directive.</h1>
     </header>
+    <section>
       <nav>
         <p>
-          <a href="#login">Login</a>
-          <a href="#profile">Profile</a>
-          <a href="#users">Users</a>
+          <a href="#/profile">Profile</a>
+          <a href="#/users">Users</a>
         </p>
       </nav>
     <main data-ng-view></main>
-
+  </section>
     <footer>
       <p>Here is some footer text. I"ll turn it into a directive eventually</p>
     </footer>
-    <script src="./node_modules/angular/angular.js"></script>
-   <script src="client.js"></script>
+   <script src="bundle.js"></script>
 <!--You can add something where it prompts user: if they need to upgrade IE8:-->
    <!-- Modernizer - helps work with older browsers: JS library that detects HTML5 and CSS3 features in the user's browser. -->
 </body>
