@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function(app) {
-
+console.log("made it into app_resources");
 var errorhandler = function(err) {
   console.log(err);
 }

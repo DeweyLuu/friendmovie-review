@@ -8,13 +8,13 @@ require('angular-route/angular-route');
 // var myApp = angular.module('friendReview', ['testController']);
 
 var movieApp = angular.module('movieApp', ['ngRoute']);
-
+console.log("picking up the Angular module");
 //services
 require('./services/app_resource')(movieApp);
 
 //controllers
 require('./controllers/testController')(movieApp);
-
+console.log("Controllers are Required");
 //Directives
 // Nothing yet to add :
 

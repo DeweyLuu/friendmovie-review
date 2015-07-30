@@ -48,3 +48,18 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+@font-face {
+ font-family: 'BELLABOO';
+ src: url('../fonts/BELLABOO/OTF/BELLABOO-Regular.otf');
+ src: local('BELLABOO'),
+      url('../fonts/BELLABOO/OTF/webfont/BELLABOO-Regular.eot') format('embedded-opentype');
+ font-weight: normal;
+ font-style: normal;
+}
+@font-face {
+ font-family: 'Infinity';
+ src: url('../fonts/Infinity.ttf');
+ font-weight: normal;
+ font-style: normal;
+}
