@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(app) {
-  app.controller('loginController', ['$scope', '$http', '$cookie', '$location', function($scope, $http, $cookies, $location) {
+  app.controller('loginController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
     $scope.sendLogin = function(resourceData){
       $http({
@@ -8,11 +8,11 @@ module.exports = function(app) {
             url: '/auth/login',
             data: resourceData
           })
-          .success(function(){
-          console.log("Send Login, It's working");
+          .success(function(data){
+          console.log(data);
      })
-     .error(function(){
-      console.log("Send Login, It failed");
+     .error(function(data) {
+      console.log("send login didn't work");
      });
 };
 
@@ -22,10 +22,10 @@ module.exports = function(app) {
             url: '/api/users/',
             data: resourceData
           })
-     .success(function(){
-          console.log("It's working");
+     .success(function(data){
+          console.log(data);
      })
-     .error(function(){
+     .error(function(err){
       console.log("It failed");
      });
    };
