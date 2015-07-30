@@ -90,5 +90,3 @@ module.exports = function(router) {
 	// pull information about a user, name and all movie
 };
 
-
-
