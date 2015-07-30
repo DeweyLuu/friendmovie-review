@@ -14,7 +14,7 @@ module.exports = function(router) {
 	// 	.post(function(req,res) {
 	// 	})
 	router.route('/users')
-	.get(verify, function(req, res) {
+	.get(function(req, res) {
 		User.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
@@ -54,7 +54,7 @@ module.exports = function(router) {
 	// auth, let user signin and create new user
 
 	router.route('/users/:userId')
-	.get(verify, function(req, res) {
+	.get(function(req, res) {
 		var person = req.params.userId;
 		//var total = user.movies;
 		//console.log(total);
