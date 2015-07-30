@@ -1,6 +1,8 @@
-h2 {
-  font-size: 4em;
+.login_h2 {
+  font-size: 5em;
   color: white;
+  font-family: 'BELLABOO', sans-serif;
+  margin: 1.5em 0 0 1em;
 }
 label {
   color: white;
@@ -8,6 +10,7 @@ label {
 legend {
   color: white;
   font-size: 2em;
+  font-family: 'BELLABOO', sans-serif;
 }
 
 .index_main {
@@ -16,4 +19,29 @@ legend {
   background:     -ms-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* IE10 */
   background:      -o-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Opera 11.10+ */
   background:         linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* W3C */
+}
+
+.login_button {
+font-family: 'Infinity', sans-serif;
+margin: .5em 0 0 1em;
+font-size: 1.5em;
+width: 8em;
+height: 2em;
+border-color: black;
+color: blue;
+background-color: white;
+}
+.createprofile_button {
+font-family: 'Infinity', sans-serif;
+margin: .5em 0 0 1em;
+font-size: 1.5em;
+width: 8em;
+height: 2em;
+border-color: black;
+color: blue;
+background-color: white;
+}
+.login_inputs {
+  font-family: 'Infinity', sans-serif;
+  font-size: 1em;
 }

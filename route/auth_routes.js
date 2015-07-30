@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 module.exports = function (router) {
 	router.use(bodyParser.json());
 	router.post('/login', function (req, res) {
-		
+
 		User.findOne({ logInName: req.body.logInName}, function (err, user) {
 //			console.log("are we in here?",user.logInName);
 			if(err) {
