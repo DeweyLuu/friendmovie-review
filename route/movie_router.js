@@ -11,14 +11,20 @@ module.exports = function(router) {
 router.route('/users/:userId')
 	// create a new movie, save movie to db and insert id to user
 	// Meng
-	.post(function(req, res) {
+	.post(verify, function(req, res) {
 		fetchUser(req, res, function(user) {
-			var verify = req.body.title.split(' ').join().toLowerCase() + req.body.year.toString();
-			var newMovie = new Movie({title: req.body.title, year: req.body.year, verification: verify, genre: req.body.genre});
+			var rating = parseFloat(req.body.rating).toFixed(1);
+			var year = parseInt(req.body.year, 10);
+			if (isNaN(rating)) res.json({msg: 'Rating is not valid.'});
+			if (isNaN(year)) res.json({msg: 'Year is not valid.'});
+			
+			var verif = req.body.title.split(' ').join().toLowerCase() + year.toString();
+			var newMovie = new Movie({title: req.body.title, year: year, verification: verif, genre: req.body.genre});
+			
 			var userReview = {
 				movie: null,
 				review: req.body.review,
-				rating: req.body.rating
+				rating: rating
 			};
 
 			fetchMovieVerif(newMovie, function(movie) {
@@ -49,7 +55,7 @@ router.route('/users/:userId')
 
 	// user deletes a review, never delete movie
 	router.route('/users/:userId/:reviewId')
-	.delete(function(req, res) {
+	.delete(verify, function(req, res) {
 		fetchUser(req, res, function(user) {
 			var reviewExist = false;
 			for (var i = 0; i < user.movies.length; i++ ) {
@@ -96,8 +102,8 @@ function fetchUser(req, res, callback) {
 }
 
 function fetchMovieVerif(newMovie, callback) {
-	var verify = newMovie.title.split(' ').join().toLowerCase() + newMovie.year.toString();
-	Movie.findOne({verification: verify})
+	var verif = newMovie.title.split(' ').join().toLowerCase() + newMovie.year.toString();
+	Movie.findOne({verification: verif})
 	.exec(function(err, movie) {
 		if (err) {
 			res.json(errorHandler(err)(500, 'create movie.'));
@@ -138,6 +144,6 @@ function saveReview(res, user, userReview){
 	user.movies.push(userReview);
 	user.save(function(err) {
 		if(err) return res.json(errorHandler(err)(500, 'save movie to user.'));
-		res.json({msg: 'Moview review was added.'});
+		res.json({msg: 'Movie review was added.'});
 	})
 }

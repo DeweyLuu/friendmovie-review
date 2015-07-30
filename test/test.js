@@ -7,7 +7,7 @@ var chaiHttp = require('chai-http');
 var server = require('../server.js');
 var bodyParser = require('body-parser');
 
-//process.env.secret = 'test secret';
+process.env.secret = 'test secret';
 
 chai.use(chaiHttp);
 
@@ -15,7 +15,7 @@ var globalToken;
 var userId;
 
 describe('http server', function(){
-	
+
 	before(function(done) {
 		var user1 = new User({logInName : "Dewey", displayName : "Dewey", password : "1234", movies : [ ]});
 		var user2 = new User({logInName : "Conlan", displayName : "Conlan", password : "1234", movies : [ ]});
@@ -27,14 +27,14 @@ describe('http server', function(){
 		user4.save();
 		done();
 	});
-	
-	after(function(done) {
-		mongoose.connection.db.dropDatabase(function(err) {
-			console.log('test database is dropped');
-			done();
-		});
-	})
-	
+
+//	after(function(done) {
+//		mongoose.connection.db.dropDatabase(function(err) {
+//			console.log('test database is dropped');
+//			done();
+//		});
+//	})
+
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
 			chai.request('localhost:8080/api')
@@ -52,7 +52,7 @@ describe('http server', function(){
 			});
 		});
 	})
-					 
+
 	describe('2. login name needs to be unique, ', function(){
 		it ('won\'t add duplicated user name', function(done) {
 			chai.request('localhost:8080/api')
@@ -64,7 +64,7 @@ describe('http server', function(){
 			});
 		});
 	})
-		
+
 	describe('3. Index page needs authentication, ', function(){
 		it ('won\'t let user view all users without verification', function(done) {
 			chai.request('localhost:8080/api')
@@ -73,7 +73,7 @@ describe('http server', function(){
 				expect(res).to.have.status(403);
 				done();
 			});
-		});	
+		});
 	})
 
 	describe('4. Login and authentication, ', function(){
@@ -88,10 +88,10 @@ describe('http server', function(){
 				globalToken = res.body.token;
 				done();
 			});
-		});	
+		});
 	})
-	
-	
+
+
 	describe('5. After token is generated for user, ', function(){
 		before(function(done) {
 			User.findOne({logInName: 'TestUser'}, function(err, user) {
@@ -99,11 +99,11 @@ describe('http server', function(){
 				done();
 			})
 		})
-		
+
 		describe('5.1 view all users, ', function(){
 			it ('let user view all users if verified', function(done) {
-				console.log(userId);
-				console.log(globalToken);
+//				console.log(userId);
+//				console.log(globalToken);
 				chai.request('localhost:8080/api')
 				.get('/users/' + userId)
 				.send({token: globalToken})
@@ -112,9 +112,24 @@ describe('http server', function(){
 					expect(res.body.success).is.undefined;
 					done();
 				});
-			});	
+			});
 		})
-		
 	})
+
+		describe('6. After token is generated for user, ', function(){
+			it ('user can create movie review if a movie is valid', function(done) {
+				chai.request('localhost:8080/api')
+				.post('/users/' + userId)
+				.send({token: globalToken})
+				.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I love it', rating: '4.5'})
+				.end(function (err, res) {
+					expect(err).to.be.null;
+					expect(res.body.msg).equal('Movie review was added.');
+					done();
+				});
+			});
+		})
+
+
 
 });
