@@ -13,7 +13,7 @@ module.exports = function(router) {
 	// router.route('/auth')
 	// 	.post(function(req,res) {
 	// 	})
-	router.route('/') {
+	router.route('/') 
 		.get(function(req,res) {
 			if(err) {
 				return console.log(err)
@@ -21,7 +21,7 @@ module.exports = function(router) {
 				res.json(msg:"hello");
 			}
 		})
-	}
+	
 	router.route('/users')
 	.get(function(req, res) {
 		User.find({}, function(err, data) {
@@ -38,16 +38,19 @@ module.exports = function(router) {
 	router.route('/users/')
 	//.auth
 	.post(function(req, res) {
-		User.findOne({logInName: req.body.createProfiles.logInName}, function(err, doc) {
+		User.findOne({logInName: req.body.logInName}, function(err, doc) {
 			if(err) {
 				console.log(err);
+				res.json({msg: "Check username and password"});
 			} else if (doc) {
 				res.json({msg: 'Name already exists'});
 			}	else {
+				if (req.body.logInName && req.body.password) {
+		
 				var newUser = new User({
-					logInName: req.body.createProfiles.logInName,
-					displayName: req.body.createProfiles.displayName,
-					password: req.body.createProfiles.password,
+					logInName: req.body.logInName,
+					displayName: req.body.displayName,
+					password: req.body.password,
 					movies: []
 				});
 				newUser.password = newUser.generateHash(newUser.password);
@@ -57,6 +60,9 @@ module.exports = function(router) {
 					}
 					res.json({msg: 'Added new user.'});
 				});
+			} else {
+				res.json({msg: "Check username and password"});
+			}
 			}
 		})
 	})
