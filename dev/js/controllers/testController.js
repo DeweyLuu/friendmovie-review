@@ -6,7 +6,7 @@ module.exports = function(app) {
     //not sure where or what this data exactly is or where it is coming from:
 
     var getAll = function(){
-      Reviews.getAll(function(response){
+      Review.getAll(function(response){
         console.log("inside getall", response);
         $scope.reviews = response;
       });

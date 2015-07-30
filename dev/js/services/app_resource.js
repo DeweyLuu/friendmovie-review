@@ -1,6 +1,10 @@
 'use strict'
 
 module.exports = function(app) {
+
+var errorhandler = function(err) {
+  console.log(err);
+}
   app.factory('resourceData', ['$http', function($http){
     return function(resourceName) {
       return {
