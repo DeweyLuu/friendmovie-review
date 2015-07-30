@@ -2,7 +2,7 @@ var chai = require('chai');
 var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var User = require('../models/user.js');
-var	File = require('../models/movie.js');
+var	Movie = require('../models/movie.js');
 var chaiHttp = require('chai-http');
 var server = require('../server.js');
 var bodyParser = require('body-parser');
@@ -36,7 +36,6 @@ describe('http server', function(){
 //			done();
 //		});
 //	})
-
 	describe('1. create new user and authentication, ', function(){
 		it ('add a new user and save the hashed password', function(done) {
 			chai.request('localhost:8080/api')
@@ -129,9 +128,6 @@ describe('http server', function(){
 				})
 			})
 		})
-
-
-
 	})
 
 	describe('6. After token is generated for user, ', function(){
@@ -148,32 +144,63 @@ describe('http server', function(){
 		});
 	})
 
-	describe('7. Delete a review that is inside of a users movie array', function() {
-		before(function(done) {
-			User.findOne({_id: userId}, function(err, user) {
-				console.log("user findone returning a user",user.movies[0]._id);
-				reviewId = user.movies[0]._id;
-				// reviewId = user.movies[0]._id;
-				console.log('should have a reviewId',reviewId);
-				done();
-			})
-		})
-		describe('things happening', function() {
-			it('should delete a review if user is valid', function(done) {
-				console.log("review id should be here",reviewId)
+		describe('6.2 if the movie is invalid, ', function(){
+			it ('user can not create movie review.', function(done) {
 				chai.request('localhost:8080/api')
-				.delete('/users/'+ userId + "/" + reviewId)
+				.post('/users/' + userId)
 				.send({token: globalToken})
+				.send({title: 'Thorn', year: '2000', genre: 'advanture', review: 'I love it', rating: '4.5'})
 				.end(function (err, res) {
-					console.log('something')
 					expect(err).to.be.null;
-					expect(res.body.msg).to.eql('The review has been deleted')
+					expect(res.body.msg).equal('The movie does not exist. Please check movie titile and year of release.');
+					done();
+					});
+				});
+			})
+
+		describe('6.3 if the movie is valid but already in database, ', function(){
+			it ('user can create movie review. No new movie entry will be created', function(done) {
+				chai.request('localhost:8080/api')
+				.post('/users/' + userId)
+				.send({token: globalToken})
+				.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I hate it', rating: '1'})
+				.end(function (err, res) {
+					Movie.find({verification: 'thorn2008'}, function(err, movie) {
+						expect(err).to.be.null;
+						expect(movie.length).equal(1);
+					})
+					expect(err).to.be.null;
+					expect(res.body.msg).equal('Movie review was added.');
+					done();
+					});
+				});
+			})
+
+
+		describe('7. Delete a review that is inside of a users movie array', function() {
+			before(function(done) {
+				User.findOne({_id: userId}, function(err, user) {
+	//				console.log("user findone returning a user",user.movies[0]._id);
+					reviewId = user.movies[0]._id;
+					// reviewId = user.movies[0]._id;
+	//				console.log('should have a reviewId',reviewId);
 					done();
 				})
 			})
+
+			describe('delete review', function() {
+				it('should delete a review if user is valid', function(done) {
+	//				console.log("review id should be here",reviewId)
+					chai.request('localhost:8080/api')
+					.delete('/users/'+ userId + "/" + reviewId)
+					.send({token: globalToken})
+					.end(function (err, res) {
+						expect(err).to.be.null;
+						expect(res.body.msg).to.eql('The review has been deleted')
+						done();
+					})
+				})
+			})
 		})
-	})
 
-
-
-});
+})

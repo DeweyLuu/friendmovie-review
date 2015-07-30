@@ -13,12 +13,12 @@ module.exports = function(router) {
 router.route('/users/:userId')
 	// create a new movie, save movie to db and insert id to user
 	// Meng
-	.post(verify, function(req, res) {
+	.post(function(req, res) {
 		fetchUser(req, res, function(user) {
 			var rating = parseFloat(req.body.rating).toFixed(1);
 			var year = parseInt(req.body.year, 10);
-			if (isNaN(rating)) res.json({msg: 'Rating is not valid.'});
-			if (isNaN(year)) res.json({msg: 'Year is not valid.'});
+			if (isNaN(rating)) return res.json({msg: 'Rating is not valid.'});
+			if (isNaN(year)) return res.json({msg: 'Year is not valid.'});
 			
 			var verif = req.body.title.split(' ').join().toLowerCase() + year.toString();
 			var newMovie = new Movie({title: req.body.title, year: year, verification: verif, genre: req.body.genre});
@@ -57,7 +57,7 @@ router.route('/users/:userId')
 
 	// user deletes a review, never delete movie
 	router.route('/users/:userId/:reviewId')
-	.delete(verify, function(req, res) {
+	.delete(function(req, res) {
 		fetchUser(req, res, function(user) {
 			var reviewExist = false;
 			for (var i = 0; i < user.movies.length; i++ ) {
@@ -104,7 +104,7 @@ function fetchUser(req, res, callback) {
 }
 
 function fetchMovieVerif(newMovie, callback) {
-	var verif = newMovie.title.split(' ').join().toLowerCase() + newMovie.year.toString();
+	var verif = newMovie.verification;
 	Movie.findOne({verification: verif})
 	.exec(function(err, movie) {
 		if (err) {

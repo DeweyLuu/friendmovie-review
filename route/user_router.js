@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var User = require('../models/user.js');
 var jwt = require('jsonwebtoken');
 var Movie = require('../models/movie.js');
-var verify = require('../middlewares/verify.js');
+//var verify = require('../middlewares/verify.js');
 
 module.exports = function(router) {
 	router.use(bodyParser.json());
@@ -14,7 +14,7 @@ module.exports = function(router) {
 	// 	.post(function(req,res) {
 	// 	})
 	router.route('/users')
-	.get(verify, function(req, res) {
+	.get(function(req, res) {
 		User.find({}, function(err, data) {
 			if (err) {
 				console.log(err);
@@ -29,16 +29,16 @@ module.exports = function(router) {
 	router.route('/users/')
 	//.auth
 	.post(function(req, res) {
-		User.findOne({logInName: req.body.logInName}, function(err, doc) {
+		User.findOne({logInName: req.body.createProfiles.logInName}, function(err, doc) {
 			if(err) {
 				console.log(err);
 			} else if (doc) {
 				res.json({msg: 'Name already exists'});
 			}	else {
 				var newUser = new User({
-					logInName: req.body.logInName,
-					displayName: req.body.displayName,
-					password: req.body.password,
+					logInName: req.body.createProfiles.logInName,
+					displayName: req.body.createProfiles.displayName,
+					password: req.body.createProfiles.password,
 					movies: []
 				});
 				newUser.password = newUser.generateHash(newUser.password);
@@ -54,41 +54,39 @@ module.exports = function(router) {
 	// auth, let user signin and create new user
 
 	router.route('/users/:userId')
-	.get(verify, function(req, res) {
+	.get(function(req, res) {
 		var person = req.params.userId;
-		//var total = user.movies;
-		//console.log(total);
 		var NumMovies = 0;
 		var Reviewarr = [];
-		User.findOne({logInName: person})
-			.exec(function(err, user) {
-				if (err) {
-					res.json({msg: 'User not found'});
-				} else {
-					var total = user.movies.length;
-					console.log(total);
-					console.log(user.movies);
-					user.movies.forEach(function(aMovie){
-						Movie.findOne({_id: aMovie.movie})
-						.populate('movies')
-						.exec(function(err, data) {
-							if(err) return console.log('error');
-							console.log(data);
-							Reviewarr.push(data);
-							//console.log(Reviewarr);
-							NumMovies++;
-						})
-						if (total == NumMovies) {
-							res.json(Reviewarr);
-							console.log(Reviewarr);
+		User.findById(person, function(err, user) {
+			if (err) {
+				console.log(err);
+			} else if (!user) {
+				return res.json({msg: "User not found"});
+			} else {
+				var total = user.movies.length;
+				user.movies.forEach(function(aMovie) {
+					var reviewInfo = {};
+					reviewInfo.review = aMovie.review;
+					reviewInfo.rating = aMovie.rating;
+					Movie.findOne({_id: aMovie.movie}, function(err, data) {
+						if(err) return res.json({msg: 'cannot find movie'});
+						reviewInfo.title = data.title;
+						reviewInfo.year = data.year;
+						reviewInfo.genre = data.genre;
+						console.log(reviewInfo);
+						Reviewarr.push(reviewInfo);
+						NumMovies++;
+						if(NumMovies == total) {
+							var userInfo = ({user: user, reviews: Reviewarr});
+							console.log(userInfo);
+							res.send(userInfo);
+							return;
 						}
 					})
-
-				}
-			})
+				})
+			}
 		})
+	})
 	// pull information about a user, name and all movie
 };
-
-
-
