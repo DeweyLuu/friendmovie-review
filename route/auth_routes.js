@@ -6,11 +6,11 @@ module.exports = function (router) {
 	router.use(bodyParser.json());
 	router.post('/login', function (req, res) {
 		
-		User.findOne({ logInName: req.body.logInName}, function (err, user) {
+		User.findOne({ logInName: req.body.loginForm.logInName}, function (err, user) {
 //			console.log("are we in here?",user.logInName);
 			if(err) {
 				res.status(500).json({msg: 'server error'});
-			} else if (user.comparePassword(req.body.password) === true) {
+			} else if (user.comparePassword(req.body.loginForm.password) === true) {
 				var token = jwt.sign(user._id, process.env.secret, {expiresInMinutes: 120});
 				res.json({
 					success: true,
