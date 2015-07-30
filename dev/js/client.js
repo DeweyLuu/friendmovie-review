@@ -15,6 +15,7 @@ require('./services/app_resource')(movieApp);
 //controllers
 require('./controllers/testController')(movieApp);
 console.log("Controllers are Required");
+require('./controllers/loginController')(movieApp);
 //Directives
 // Nothing yet to add :
 
@@ -24,7 +25,7 @@ movieApp.config(['$routeProvider', function($routeProvider){
   // Home Initial Login or Create
 .when('/', {
   templateUrl: './templates/login.html',
-  controller: 'testController'
+  controller: 'loginController'
 })
  // Profile Page
 .when('/profile', {

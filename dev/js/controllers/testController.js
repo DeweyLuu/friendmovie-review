@@ -13,6 +13,13 @@ module.exports = function(app) {
     };
     getAll();
 
+    $scope.sendLogin = function(username){
+      console.log(username.logInName);
+      username.submit(username, function(response){
+        getAll();
+      });
+    };
+
     $scope.submit = function(review) {
       console.log(review.movietitle);
       Review.submit(review, function(response){

@@ -11,15 +11,33 @@ var errorhandler = function(err) {
         getAll: function(callback){
           $http({
             method: 'GET',
-            url: '/api' + resourceName
+            url: '/api/' + resourceName
           })
           .success(callback)
           .error(errorhandler);
         },
+        // sendLogin: function(resourceData, callback) {
+        //   $http({
+        //     method: 'POST',
+        //     url: '/auth/login',
+        //     data: resourceData
+        //   })
+        //   .success(callback)
+        //   .error(errorhandler);
+        // },
+        // newUser: function(resourceData, callback) {
+        //   $http({
+        //     method: 'POST',
+        //     url: '/api/users/',
+        //     data: resourceData
+        //   })
+        //   .success(callback)
+        //   .error(errorhandler);
+        // },
         submit: function(resourceData, callback){
           $http({
             method: 'POST',
-            url: '/api' + resourceName,
+            url: '/api/' + resourceName,
             data: resourceData
           })
           .success(callback)
@@ -28,7 +46,7 @@ var errorhandler = function(err) {
         destroy: function(id, callback){
           $http({
             method: 'DELETE',
-            url: '/api' + resourceName + '/' + id,
+            url: '/api/' + resourceName + '/' + id,
             data: id
           })
           .success(callback)
@@ -38,7 +56,7 @@ var errorhandler = function(err) {
         edit: function(resourceData, callback){
           $http({
             method: 'PUT',
-            url: '/api' + resourceName + '/api' + resourceData._id,
+            url: '/api/' + resourceName + '/api' + resourceData._id,
               data: resourceData
           })
           .success(callback)
