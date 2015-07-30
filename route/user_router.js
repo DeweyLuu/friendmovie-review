@@ -56,18 +56,37 @@ module.exports = function(router) {
 	router.route('/users/:userId')
 	.get(verify, function(req, res) {
 		var person = req.params.userId;
-		//User.findOne({logInName: person}, function(err, data) {
+		//var total = user.movies;
+		//console.log(total);
+		var NumMovies = 0;
+		var Reviewarr = [];
 		User.findOne({logInName: person})
-			//.populate('users')
 			.exec(function(err, user) {
 				if (err) {
-				res.json({msg: 'User not found'});
-			} else {
-				console.log(user);
-				res.json(user);
-			}
+					res.json({msg: 'User not found'});
+				} else {
+					var total = user.movies.length;
+					console.log(total);
+					console.log(user.movies);
+					user.movies.forEach(function(aMovie){
+						Movie.findOne({_id: aMovie.movie})
+						.populate('movies')
+						.exec(function(err, data) {
+							if(err) return console.log('error');
+							console.log(data);
+							Reviewarr.push(data);
+							//console.log(Reviewarr);
+							NumMovies++;
+						})
+						if (total == NumMovies) {
+							res.json(Reviewarr);
+							console.log(Reviewarr);
+						}
+					})
+
+				}
+			})
 		})
-	})
 	// pull information about a user, name and all movie
 };
 
