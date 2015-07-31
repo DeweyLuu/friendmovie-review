@@ -5,15 +5,15 @@ var Movie = require('../models/movie.js');
 
 var request = require('request');
 
-//var verify = require('../middlewares/verify.js');
+var verify = require('../midlewares/verify.js');
 
 
 module.exports = function(router) {
 
-router.route('/users/:userId')
+router.route('/users/review')
 	// create a new movie, save movie to db and insert id to user
 	// Meng
-	.post(function(req, res) {
+	.post(verify, function(req, res) {
 		fetchUser(req, res, function(user) {
 			var rating = parseFloat(req.body.rating).toFixed(1);
 			var year = parseInt(req.body.year, 10);
@@ -56,8 +56,8 @@ router.route('/users/:userId')
 
 
 	// user deletes a review, never delete movie
-	router.route('/users/:userId/:reviewId')
-	.delete(function(req, res) {
+	router.route('/users/user/:reviewId')
+	.delete(verify, function(req, res) {
 		fetchUser(req, res, function(user) {
 			var reviewExist = false;
 			for (var i = 0; i < user.movies.length; i++ ) {
@@ -88,7 +88,7 @@ function errorHandler(error) {
 
 function fetchUser(req, res, callback) {
 //	User.find({}, function(err, data) {console.log(data)});
-	User.findById(req.params.userId)
+	User.findById(req.decoded)
 	.populate('movies')
 	.exec(function(err, user) {
 		if (err) {

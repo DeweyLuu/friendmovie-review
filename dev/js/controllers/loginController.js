@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(app) {
-  app.controller('loginController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+  app.controller('loginController', ['$scope', '$http', '$location', '$cookies', function($scope, $http, $location, $cookies) {
 
     $scope.sendLogin = function(resourceData){
       $http({
@@ -8,12 +8,20 @@ module.exports = function(app) {
             url: '/auth/login',
             data: resourceData
           })
-          .success(function(data){
-          console.log(data);
+          .success(function(response){
+          console.log(response);
+      var responseCookie = $cookies.put('response',response.token);
+       var responseKey = $cookies.get('response');
+       console.log(responseCookie);
+       console.log(responseKey);
+          // var responseCookie = $cookies.put('response', response.token);
+
+          //$cookies.put("user", resourceData.user);
      })
-     .error(function(data) {
-      console.log("send login didn't work");
-     });
+          .error(function() {
+          console.log("send login didn't work");
+     })
+      $location.url('../../templates/profile.html');
 };
 
      $scope.newUser = function(resourceData){
