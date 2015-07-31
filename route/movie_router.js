@@ -5,7 +5,7 @@ var Movie = require('../models/movie.js');
 
 var request = require('request');
 
-//var verify = require('../middlewares/verify.js');
+var verify = require('../midlewares/verify.js');
 
 
 module.exports = function(router) {

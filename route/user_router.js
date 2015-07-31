@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var User = require('../models/user.js');
 var jwt = require('jsonwebtoken');
 var Movie = require('../models/movie.js');
-var verify = require('../middlewares/verify.js');
+var verify = require('../midlewares/verify.js');
 
 module.exports = function(router) {
 	router.use(bodyParser.json());
