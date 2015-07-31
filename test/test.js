@@ -66,17 +66,28 @@ describe('http server', function(){
 		});
 	})
 
-	describe('3. Index page needs authentication, ', function(){
-		it ('won\'t let user view all users without verification', function(done) {
+//	describe('3. Index page needs authentication, ', function(){
+//		it ('won\'t let user view all users without verification', function(done) {
+//			chai.request('localhost:8080/api')
+//			.get('/users')
+//			.end(function (err, res) {
+//				expect(res).to.have.status(403);
+//				done();
+//			});
+//		});
+//	})
+	describe('3. Index page does not need authentication, ', function(){
+		it ('let user view all users without verification', function(done) {
 			chai.request('localhost:8080/api')
 			.get('/users')
 			.end(function (err, res) {
-				expect(res).to.have.status(403);
+				expect(err).to.be.null;
+				expect(res.body).not.null;
 				done();
 			});
 		});
 	})
-
+	
 	describe('4. Login and authentication, ', function(){
 		it ('let user signin and generates a token', function(done) {
 			chai.request('localhost:8080/auth')
@@ -100,40 +111,44 @@ describe('http server', function(){
 				done();
 			})
 		})
+	
 
-		describe('5.1 view all users, ', function(){
-			it ('let user view all users if verified', function(done) {
-//				console.log(userId);
-//				console.log(globalToken);
-				chai.request('localhost:8080/api')
-				.get('/users')
-				.send({token: globalToken})
-				.end(function (err, res) {
-					expect(err).to.be.null;
-					expect(res.body.success).is.undefined;
-					done();
-				});
-			});
-		})
+//		describe('5.1 view all users, ', function(){
+//			it ('let user view all users if verified', function(done) {
+////				console.log(userId);
+////				console.log(globalToken);
+//				chai.request('localhost:8080/api')
+//				.get('/users')
+//				.send({token: globalToken})
+//				.end(function (err, res) {
+//					expect(err).to.be.null;
+//					expect(res.body.success).is.undefined;
+//					done();
+//				});
+//			});
+//		})
 
 		describe('5.2 view one user', function() {
 			it('should let us view the specific user if we\'re verified', function(done) {
 				chai.request('localhost:8080/api')
-				.get('/users/' + userId)
+				.get('/users/user' )
 				.send({token: globalToken})
 				.end(function (err, res) {
 					expect(err).to.be.null;
 					expect(res.body.success).is.undefined;
+					expect(res.body).have.property('user');
+					expect(res.body).have.property('reviews');
 					done();
 				})
 			})
 		})
 	})
+})
 
 	describe('6. After token is generated for user, ', function(){
 		it ('user can create movie review if a movie is valid', function(done) {
 			chai.request('localhost:8080/api')
-			.post('/users/' + userId)
+			.post('/users/review')
 			.send({token: globalToken})
 			.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I love it', rating: '4.5'})
 			.end(function (err, res) {
@@ -147,7 +162,7 @@ describe('http server', function(){
 		describe('6.2 if the movie is invalid, ', function(){
 			it ('user can not create movie review.', function(done) {
 				chai.request('localhost:8080/api')
-				.post('/users/' + userId)
+				.post('/users/review')
 				.send({token: globalToken})
 				.send({title: 'Thorn', year: '2000', genre: 'advanture', review: 'I love it', rating: '4.5'})
 				.end(function (err, res) {
@@ -161,7 +176,7 @@ describe('http server', function(){
 		describe('6.3 if the movie is valid but already in database, ', function(){
 			it ('user can create movie review. No new movie entry will be created', function(done) {
 				chai.request('localhost:8080/api')
-				.post('/users/' + userId)
+				.post('/users/review' )
 				.send({token: globalToken})
 				.send({title: 'Thorn', year: '2008', genre: 'advanture', review: 'I hate it', rating: '1'})
 				.end(function (err, res) {
@@ -177,30 +192,29 @@ describe('http server', function(){
 			})
 
 
-		describe('7. Delete a review that is inside of a users movie array', function() {
-			before(function(done) {
-				User.findOne({_id: userId}, function(err, user) {
-	//				console.log("user findone returning a user",user.movies[0]._id);
-					reviewId = user.movies[0]._id;
-					// reviewId = user.movies[0]._id;
-	//				console.log('should have a reviewId',reviewId);
-					done();
-				})
-			})
+//		describe('7. Delete a review that is inside of a users movie array', function() {
+//			before(function(done) {
+//				User.findOne({_id: userId}, function(err, user) {
+//	//				console.log("user findone returning a user",user.movies[0]._id);
+//					reviewId = user.movies[0]._id;
+//					// reviewId = user.movies[0]._id;
+//	//				console.log('should have a reviewId',reviewId);
+//					done();
+//				})
+//			})
 
 			describe('delete review', function() {
 				it('should delete a review if user is valid', function(done) {
 	//				console.log("review id should be here",reviewId)
 					chai.request('localhost:8080/api')
-					.delete('/users/'+ userId + "/" + reviewId)
+					.delete('/users/user/' + reviewId)
 					.send({token: globalToken})
 					.end(function (err, res) {
 						expect(err).to.be.null;
-						expect(res.body.msg).to.eql('The review has been deleted')
+						expect(res.body.msg).to.eql('The review has been deleted');
 						done();
 					})
 				})
 			})
-		})
 
-})
+//		})

@@ -12,14 +12,29 @@ legend {
   font-size: 2em;
   font-family: 'BELLABOO', sans-serif;
 }
-
 .index_main {
+  background-image: url(../images/login_background.jpg), linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: scroll;
+  background: -webkit-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* W3C */
+  /*background-blend-mode: multiply;
+  @media (min-width: 34.375em) {
+    background-attachment: fixed;
+  }*/
+}
+/*.index_main {
  background: -webkit-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Chrome 10+, Saf5.1+ */
   background:    -moz-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* FF3.6+ */
   background:     -ms-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* IE10 */
   background:      -o-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Opera 11.10+ */
   background:         linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* W3C */
-}
+}*/
 
 .login_button {
 font-family: 'Infinity', sans-serif;

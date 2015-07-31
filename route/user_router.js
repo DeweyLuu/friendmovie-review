@@ -20,7 +20,7 @@ module.exports = function(router) {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log(data);
+//				console.log(data);
 				res.json(data);
 			}
 		});
@@ -81,7 +81,7 @@ module.exports = function(router) {
 						reviewInfo.title = data.title;
 						reviewInfo.year = data.year;
 						reviewInfo.genre = data.genre;
-						console.log(reviewInfo);
+//						console.log(reviewInfo);
 						Reviewarr.push(reviewInfo);
 						NumMovies++;
 						if(NumMovies == total) {
@@ -97,3 +97,4 @@ module.exports = function(router) {
 	})
 	// pull information about a user, name and all movie
 };
+

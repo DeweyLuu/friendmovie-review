@@ -16,12 +16,13 @@ module.exports = function(app) {
             headers: {'x-access-token': userToken}
           })
      .success(function(data){
+          // angular.forEach(data.reviews, function(item, i){
+          //   console.log(item[i]);
           console.log(data);
           console.log(resourceData);
-
      })
      .error(function(err){
-      console.log("It failed");
+      console.log("It failed" + err);
      });
    };
 
@@ -31,7 +32,7 @@ module.exports = function(app) {
             url: '/api/users/review',
             data: resourceData
           })
-          .success(function(response){
+          .success(function(response, resourceData){
           console.log(response);
           // var responseCookie = $cookies.put('response', response.token);
 

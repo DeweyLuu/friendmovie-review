@@ -1,4 +1,9 @@
-<section>
+    <nav>
+        <p>
+          <a href="#/profile">Profile</a>
+          <a href="#/users">Users</a>
+        </p>
+      </nav>
 <section>
     <button data-ng-click="getReviews(getToken)">Name</button>
     <form class="bit-1" data-ng-submit="makeReview(writeReviews)">
@@ -17,13 +22,12 @@
             <button type="submit">Done</button>
         </fieldset>
       </form>
-    </section>
-    <section class="bit" data-ng-repeat="review in reviews">
+    <section class="bit"> <!-- data-ng-repeat="data in getToken track by $id(data)" -->
 
-<h1> {{review.movietitle}} Ok</h1>
-<p> {{review.movieyear}} 1998</p>
-<p> {{review.moviegenre}} Action</p>
-<p> {{review.rating}} 9.8</p>
-<p> {{review.moviereview}}</p>
+<h1>Movie Title: {{data[1].title}} </h1>
+<p>Year: {{data[1].year}} </p>
+<p>Genre:  {{data[1].genre}} </p>
+<p>Rating: {{data[1].rating}}</p>
+<p>Review: {{data[1].review}}</p>
 </section>
 </section>
