@@ -130,7 +130,7 @@ function validateMovie(req, res, newMovie, next) {
 			var result = JSON.parse(body);
 			// invalid movie will look like {"Response":"False","Error":"Movie not found!"}
 			if (result.Error === 'Movie not found!') {
-				console.log(result);
+//				console.log(result);
 				res.json({msg: 'The movie does not exist. Please check movie titile and year of release.'});
 				return;
 			}
