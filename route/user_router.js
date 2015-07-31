@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var User = require('../models/user.js');
 var jwt = require('jsonwebtoken');
 var Movie = require('../models/movie.js');
-//var verify = require('../middlewares/verify.js');
+var verify = require('../middlewares/verify.js');
 
 module.exports = function(router) {
 	router.use(bodyParser.json());
@@ -60,9 +60,9 @@ module.exports = function(router) {
     })
 	// auth, let user signin and create new user
 
-	router.route('/users/:userId')
-	.get(function(req, res) {
-		var person = req.params.userId;
+	router.route('/users/user')
+	.get(verify, function(req, res) {
+		var person = req.decoded;
 		var NumMovies = 0;
 		var Reviewarr = [];
 		User.findById(person, function(err, user) {
