@@ -7,16 +7,18 @@ module.exports = function(app) {
 // console.log("I'm in Review Controller");
 // var responseKey = $cookies.get('response');
 // console.log(responseKey);
-// $http.defaults.headers.common['x-access-token'] = responseKey;
+ $http.defaults.headers.common['x-access-token'] = userToken;
 
   $scope.getReviews = function(resourceData){
       $http({
             method: 'GET',
             url: '/api/users/user',
-            headers: {'x-access-token': resourceData}
+            headers: {'x-access-token': userToken}
           })
      .success(function(data){
           console.log(data);
+          console.log(resourceData);
+
      })
      .error(function(err){
       console.log("It failed");
@@ -26,7 +28,7 @@ module.exports = function(app) {
     $scope.makeReview = function(resourceData){
       $http({
             method: 'POST',
-            url: '/users/review',
+            url: '/api/users/review',
             data: resourceData
           })
           .success(function(response){
@@ -34,10 +36,11 @@ module.exports = function(app) {
           // var responseCookie = $cookies.put('response', response.token);
 
           //$cookies.put("user", resourceData.user);
-     })
-          .error(function() {
-          console.log("send login didn't work");
-     });
-   };
+          })
+          .error(function(err) {
+            console.log(resourceData);
+          console.log(err);
+        });
+    };
 }]);
 }
