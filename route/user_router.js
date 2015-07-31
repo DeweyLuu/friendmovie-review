@@ -87,7 +87,7 @@ module.exports = function(router) {
 						if(NumMovies == total) {
 							var userInfo = ({user: user, reviews: Reviewarr});
 							console.log(userInfo);
-							res.send(userInfo);
+							res.json(userInfo);
 							return;
 						}
 					})

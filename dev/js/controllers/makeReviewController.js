@@ -1,12 +1,19 @@
 'use strict';
 module.exports = function(app) {
-  app.controller('makeReviewController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+  app.controller('makeReviewController', ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location) {
+    var userToken = $cookies.get('response');
+    $scope.getToken = userToken;
+
+// console.log("I'm in Review Controller");
+// var responseKey = $cookies.get('response');
+// console.log(responseKey);
+// $http.defaults.headers.common['x-access-token'] = responseKey;
 
   $scope.getReviews = function(resourceData){
-     $http({
+      $http({
             method: 'GET',
-            url: '/api/users/',
-            data: resourceData
+            url: '/api/users/user',
+            headers: {'x-access-token': resourceData}
           })
      .success(function(data){
           console.log(data);
@@ -19,7 +26,7 @@ module.exports = function(app) {
     $scope.makeReview = function(resourceData){
       $http({
             method: 'POST',
-            url: '/auth/login',
+            url: '/users/review',
             data: resourceData
           })
           .success(function(response){
@@ -30,6 +37,7 @@ module.exports = function(app) {
      })
           .error(function() {
           console.log("send login didn't work");
-     })
-};
+     });
+   };
+}]);
 }

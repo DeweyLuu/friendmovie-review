@@ -2,29 +2,7 @@
 module.exports = function(app) {
   app.controller('loginController', ['$scope', '$http', '$location', '$cookies', function($scope, $http, $location, $cookies) {
 
-    $scope.sendLogin = function(resourceData){
-      $http({
-            method: 'POST',
-            url: '/auth/login',
-            data: resourceData
-          })
-          .success(function(response){
-          console.log(response);
-      var responseCookie = $cookies.put('response',response.token);
-       var responseKey = $cookies.get('response');
-       console.log(responseCookie);
-       console.log(responseKey);
-          // var responseCookie = $cookies.put('response', response.token);
-
-          //$cookies.put("user", resourceData.user);
-     })
-          .error(function() {
-          console.log("send login didn't work");
-     })
-      $location.url('../../templates/profile.html');
-};
-
-     $scope.newUser = function(resourceData){
+    $scope.newUser = function(resourceData){
      $http({
             method: 'POST',
             url: '/api/users/',
@@ -38,6 +16,31 @@ module.exports = function(app) {
      });
    };
 
+    // $cookies.put('response', response.token);
+    // var responseKey = $cookies.get('response');
+
+    $scope.sendLogin = function(resourceData){
+
+      $http({
+            method: 'POST',
+            url: '/auth/login',
+            data: resourceData,
+          })
+          .success(function(data){
+          console.log(data);
+
+          $cookies.put('response', data.token);
+    // var responseCookie = $cookies.put('response',response.token);
+    // var responseKey = $cookies.get('response');
+    // console.log(responseKey);
+    // $http.defaults.headers.common['x-access-token'] = responseKey;
+    // console.log(responseKey);
+          })
+          .error(function(err) {
+          console.log("send login didn't work" + err);
+          })
+          $location.url('/profile');
+    };
     //   $http.post('/api/users/');
     //   console.log(username.logInName);
     //   username.submit(username, function(response){

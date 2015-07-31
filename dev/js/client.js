@@ -16,6 +16,7 @@ console.log("picking up the Angular module");
 // require('./controllers/testController')(movieApp);
 console.log("Controllers are Required");
 require('./controllers/loginController')(movieApp);
+require('./controllers/makeReviewController')(movieApp);
 //Directives
 // Nothing yet to add :
 
@@ -30,7 +31,7 @@ movieApp.config(['$routeProvider', function($routeProvider){
  //Profile Page
 .when('/profile', {
   templateUrl: '/templates/profile.html',
-  controller: 'loginController'
+  controller: 'makeReviewController'
 })
 // Page with all of the users, where you can check out the users
 .when('/users', {
