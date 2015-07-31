@@ -10,8 +10,8 @@ module.exports = function (router) {
 //			console.log("are we in here?",user.logInName);
 			if(err) {
 				res.status(500).json({msg: 'server error'});
-			} else if(!user) {
-				res.json({msg: "User does not exist"});
+			} else if (!user) {
+				res.json({msg: "User does not exists"});
 			} else if (user.comparePassword(req.body.password) === true) {
 				var token = jwt.sign(user._id, process.env.secret, {expiresInMinutes: 120});
 				res.json({

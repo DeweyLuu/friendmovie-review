@@ -13,6 +13,7 @@
   "author": "Meng Chen",
   "license": "ISC",
   "devDependencies": {
+    "angular-cookies": "^1.4.3",
     "angular": "^1.4.3",
     "angular-route": "^1.4.3",
     "chai": "^3.0.0",
@@ -32,6 +33,7 @@
     "webpack": "^1.10.5"
   },
   "dependencies": {
+    "angular-cookies": "^1.4.3",
     "bcrypt": "^0.8.4",
     "body-parser": "^1.13.2",
     "express": "4.13.0",
