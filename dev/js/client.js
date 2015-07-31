@@ -4,10 +4,10 @@ console.log("load client.js");
 
 require('angular/angular');
 require('angular-route/angular-route');
-
+require('angular-cookies/angular-cookies')
 // var myApp = angular.module('friendReview', ['testController']);
 
-var movieApp = angular.module('movieApp', ['ngRoute']);
+var movieApp = angular.module('movieApp', ['ngRoute', 'ngCookies']);
 console.log("picking up the Angular module");
 //services
 // require('./services/app_resource')(movieApp);
